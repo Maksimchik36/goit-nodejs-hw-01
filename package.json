@@ -21,5 +21,8 @@
   "homepage": "https://github.com/Maksimchik36/goit-nodejs-hw-01",
   "devDependencies": {
     "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "nanoid": "^3.3.4"
   }
 }
