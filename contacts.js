@@ -15,7 +15,7 @@ const updateContacts = async (allContacts) => await fs.writeFile(contactsPath, J
 async function getListContacts() {
     const data = await fs.readFile(contactsPath);
     const result = JSON.parse(data);
-    console.log(result);
+    // console.log(result);
     return result;
 }
 
@@ -25,7 +25,7 @@ async function getContactById(contactId) {
     const id = contactId.toString();
     const allContacts = await getListContacts();
     const contactById = allContacts.find(contact => contact.id === id);
-    console.log(contactById);
+    // console.log(contactById);
     return contactById || null;
 }
 
@@ -37,6 +37,9 @@ async function getContactById(contactId) {
 //     const unremovedContacts = allContacts.filter(contact => contact.id !== id);
 //     await fs.writeFile(contactsPath, JSON.stringify(unremovedContacts, null, 2));
 //     const deletedContact = allContacts.find(contact => contact.id === id);
+//     if (!deletedContact) {
+//         return null;
+//         }
 //     return deletedContact;
 // }
 
@@ -50,8 +53,8 @@ async function removeContact(contactId) {
     if(index === -1){
         return null;
     }
-    // удаляет элемент из массива и возвращает удаляемый элемент (splice)
-    const result = allContacts.splice(index, 1);
+    // в результате деструктуризации получаем объект, а не массив.удаляет элемент из массива и возвращает удаляемый элемент (splice)
+    const [result] = allContacts.splice(index, 1);
     await updateContacts(allContacts);
     return result;
 }
