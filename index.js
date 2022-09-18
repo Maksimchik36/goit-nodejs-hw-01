@@ -1,6 +1,7 @@
 // const argv = require("yargs").argv; // при 1-ом варианте вызова ф-и invokeAction
-const yargs = require("yargs");  // при 2-ом варианте вызова ф-и invokeAction. позволяет преобразовать массив в объект
-const { hideBin } = require("yargs/helpers"); // при 2-ом варианте вызова ф-и invokeAction
+// const yargs = require("yargs");  // при 2-ом варианте вызова ф-и invokeAction. позволяет преобразовать массив в объект
+// const { hideBin } = require("yargs/helpers"); // при 2-ом варианте вызова ф-и invokeAction
+const { program } = require("commander"); // при 3-ем варианте вызова ф-и invokeAction
 const getListContacts = require('./contacts').getListContacts;
 const getContactById = require('./contacts').getContactById;
 const removeContact = require('./contacts').removeContact;
@@ -35,7 +36,7 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
 }
 
 
-// // 1-ый вариант вызова ф-и invokeAction. 
+// // 1-ый вариант вызова ф-и invokeAction.
 // // проверяет process.argv на наличие флага "--action" и выдает его индекс
 // const actionIndex = process.argv.indexOf('--action')
 // console.log("process.argv", process.argv);
@@ -47,9 +48,23 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
 // }
 
 
-// 2-ой вариант вызова ф-и invokeAction.
-// отсекает первые 2 элемента массива: node и файл запуска, и выдает оставшиеся элементы
-const arr = hideBin(process.argv);
-// выдает объект из исходного массива
-const { argv } = yargs(arr);
-invokeAction(argv);
+// // 2-ой вариант вызова ф-и invokeAction.
+// // отсекает первые 2 элемента массива: node и файл запуска, и выдает оставшиеся элементы
+// const arr = hideBin(process.argv);
+// // выдает объект из исходного массива
+// const { argv } = yargs(arr);
+// invokeAction(argv);
+
+
+// // 3-ий вариант вызова ф-и invokeAction. 
+// описывает ожидаемые параметры
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
+program.parse();
+// преобразует массив параметров и возвращает его в виде объекта
+const options = program.opts();
+invokeAction(options);
