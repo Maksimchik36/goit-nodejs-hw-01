@@ -2,10 +2,10 @@
 const fs = require("fs/promises");    // 1-ый вариант
 // const fs = require("fs").promises; // 2-ой вариант
 const path = require("path");
-const {nanoid} = require("nanoid")
+const { nanoid } = require("nanoid");
 
 // метод resolve позволяет нам получить абсолютный путь из относительного пути 
-const contactsPath = path.resolve('./db/contacts.json');
+const contactsPath = path.resolve('db/contacts.json');
 
 // записывает allContacts в contacts.json (создана в результате рефакторинга, используется при изменении массива для обновления и на бэкэнде)
 const updateContacts = async (allContacts) => await fs.writeFile(contactsPath, JSON.stringify(allContacts, null, 2));
@@ -15,7 +15,6 @@ const updateContacts = async (allContacts) => await fs.writeFile(contactsPath, J
 async function getListContacts() {
     const data = await fs.readFile(contactsPath);
     const result = JSON.parse(data);
-    // console.log(result);
     return result;
 }
 
@@ -25,12 +24,11 @@ async function getContactById(contactId) {
     const id = contactId.toString();
     const allContacts = await getListContacts();
     const contactById = allContacts.find(contact => contact.id === id);
-    // console.log(contactById);
     return contactById || null;
 }
 
 
-// // удаляет контакт по id - 1-й вариант
+// // 1-й вариант - удаляет контакт по id
 // async function removeContact(contactId) {
 //     const id = contactId.toString();
 //     const allContacts = await getListContacts();
@@ -44,7 +42,7 @@ async function getContactById(contactId) {
 // }
 
 
-// удаляет контакт по id - 2-й вариант
+// 2-й вариант - удаляет контакт по id
 async function removeContact(contactId) {
     const id = contactId.toString();
     const allContacts = await getListContacts();
